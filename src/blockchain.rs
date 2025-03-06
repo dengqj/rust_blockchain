@@ -10,7 +10,7 @@ pub struct Blockchain {
 impl Blockchain {
     pub fn new() -> Blockchain {
         let mut blockchain = Blockchain { blocks: Vec::new() };
-        blockchain.blocks.push(Block::new_block(0, String::from("Genesis Block"), String::from("0"),0).unwrap());
+        blockchain.blocks.push(Block::new_genesis_block(String::from("Genesis Block")));
         blockchain
     }
 
