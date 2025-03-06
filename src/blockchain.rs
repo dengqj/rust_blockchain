@@ -28,4 +28,15 @@ impl Blockchain {
         Ok(())
         
     }
+
+    pub fn display(&self) {
+        for block in &self.blocks {
+            println!("Block Index: {}", block.get_index());
+            println!("Block Timestamp: {}", block.get_timestamp_string());
+            println!("Block Data: {}", block.get_data());
+            println!("Block Prev Hash: {}", block.get_prev_hash());
+            println!("Block Hash: {}", block.get_hash());
+            println!("--------------------");
+        }
+    }    
 }

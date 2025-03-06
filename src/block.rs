@@ -3,11 +3,14 @@ use sha2::{Sha256, Digest};
 pub type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 use hex;
 use std::time::SystemTime;
+use chrono::{DateTime, Utc, TimeZone};
+use serde::{Serialize, Deserialize}; 
 
-#[derive(serde::Serialize, Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)] 
 pub struct Block {
     index: u32,
-    timestamp: u128,
+    #[serde(with = "chrono::serde::ts_milliseconds")] 
+    timestamp: DateTime<Utc>,
     data: String,
     prev_hash: String,
     hash: String,
@@ -17,9 +20,7 @@ pub struct Block {
 impl Block {
     pub fn new_block(index: u32, data: String, prev_hash: String, nonce: u32) -> Result<Block> {
         let hash = String::new();
-        let timestamp = SystemTime::now()
-            .duration_since(SystemTime::UNIX_EPOCH)?
-            .as_millis();
+        let timestamp: DateTime<Utc> = Utc::now(); 
         let mut block = Block {
             index,
             timestamp,
@@ -52,7 +53,7 @@ impl Block {
     }
     
     fn hash_data(&self) -> Result<Vec<u8>> {
-        let values = (self.index, self.timestamp, &self.data, &self.prev_hash, self.nonce);
+        let values = (self.index, self.timestamp.timestamp_millis(), &self.data, &self.prev_hash, self.nonce);
         let input = serialize(&values)?;
         Ok(input)
     }
@@ -71,5 +72,18 @@ impl Block {
     pub fn get_prev_hash(&self) -> String {
         self.prev_hash.clone()
     }
+
+    pub fn get_index(&self) -> u64 {
+        self.index as u64
+    }
+
+    pub fn get_data(&self) -> String {
+        self.data.clone()
+    }
+
+    pub fn get_timestamp_string(&self) -> String {
+        self.timestamp.format("%Y-%m-%d %H:%M:%S UTC").to_string()
+    }
+    
 
 }

@@ -8,7 +8,7 @@ fn main() {
 
     let mut blockchain = Blockchain::new();
     blockchain.add_block(Block::new_block(1, String::from("Block 1"), blockchain.blocks.last().unwrap().get_hash(),0).unwrap()).unwrap();
-    print!("{:#?}", blockchain)
+    blockchain.display();
 
 
 }
