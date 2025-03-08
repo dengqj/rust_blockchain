@@ -5,7 +5,7 @@ use crate::blockchain::Blockchain;
 
 
 fn main() {
-
+    //输出创世区块，添加一个新区块
     let mut blockchain = Blockchain::new();
     blockchain.add_block(Block::new_block(1, String::from("Block 1"), blockchain.blocks.last().unwrap().get_hash(),0).unwrap()).unwrap();
     blockchain.display();
