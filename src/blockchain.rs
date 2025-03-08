@@ -8,12 +8,13 @@ pub struct Blockchain {
     pub blocks: Vec<Block>,
 }
 impl Blockchain {
+    //创建新区块链
     pub fn new() -> Blockchain {
         let mut blockchain = Blockchain { blocks: Vec::new() };
         blockchain.blocks.push(Block::new_genesis_block(String::from("Genesis Block")));
         blockchain
     }
-
+    //当前区块链上添加新区块
     pub fn add_block(&mut self, block: Block) -> Result<()> {
         let new_hash = block.calculate_hash();
         let get_hash = block.get_hash(); 
@@ -28,7 +29,7 @@ impl Blockchain {
         Ok(())
         
     }
-
+    //打印区块链
     pub fn display(&self) {
         for block in &self.blocks {
             println!("Block Index: {}", block.get_index());
